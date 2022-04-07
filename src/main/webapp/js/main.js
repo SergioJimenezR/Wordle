@@ -1,5 +1,14 @@
-var palabraSecreta = 'REINA';
+var palabraSecreta = nuevaPalabra();
 var filaActual = 0;
+
+function nuevaPalabra() {
+	var peticion = new XMLHttpRequest();
+	peticion.open('GET', 'wordle/getNuevaPalabra');
+	peticion.onload = function() {
+		console.log(this.responseText);
+	}
+	peticion.send();
+}
 
 document.getElementById('input').addEventListener('keyup', function() {
 	input.value = input.value.toUpperCase();
@@ -31,5 +40,5 @@ document.getElementById('reiniciar').addEventListener('click', function() {
 	}
 	input.value = '';
 	filaActual = 0;
-	palabraSecreta = 'REINA';
+	palabraSecreta = nuevaPalabra();
 });
