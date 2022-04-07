@@ -11,7 +11,7 @@ function nuevaPalabra() {
 }
 
 document.getElementById('input').addEventListener('keyup', function() {
-	input.value = input.value.toUpperCase();
+	input.value = String(input.value.toUpperCase()).replace(/[^A-ZÑ]+/g, '');
 	var celdas = Array.from(document.querySelectorAll('td')).slice(5 * filaActual, 5 * (filaActual + 1));
 	for (var i = 0; i < celdas.length; i++)
 		celdas[i].innerHTML = input.value.charAt(i);
