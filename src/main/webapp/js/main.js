@@ -1,34 +1,43 @@
-var palabraSecreta = nuevaPalabra();
+var palabraSecreta = '';
 var filaActual = 0;
+var palabraFormada = '';
+var continuar = true;
+
+nuevaPalabra();
 
 function nuevaPalabra() {
 	var peticion = new XMLHttpRequest();
 	peticion.open('GET', 'wordle/getNuevaPalabra');
 	peticion.onload = function() {
-		console.log(this.responseText);
+		console.log(palabraSecreta = this.responseText);
 	}
 	peticion.send();
 }
 
-document.getElementById('input').addEventListener('keyup', function() {
-	input.value = String(input.value.toUpperCase()).replace(/[^A-ZÑ]+/g, '');
-	var celdas = Array.from(document.querySelectorAll('td')).slice(5 * filaActual, 5 * (filaActual + 1));
-	for (var i = 0; i < celdas.length; i++)
-		celdas[i].innerHTML = input.value.charAt(i);
-});
+document.addEventListener('keyup', function(evento) {
+	if (evento.key.length === 1 && evento.key.match(/[a-zA-ZñÑ]/) && continuar) {
+		palabraFormada += evento.key.toUpperCase();
 
-document.getElementById('validar').addEventListener('click', function() {
-	if (input.value.length == 5) {
 		var celdas = Array.from(document.querySelectorAll('td')).slice(5 * filaActual, 5 * (filaActual + 1));
 		for (var i = 0; i < celdas.length; i++)
-			if (palabraSecreta.charAt(i) == input.value.charAt(i))
-				celdas[i].style.background = '#6aaa64'; // Verde
-			else if (palabraSecreta.includes(input.value.charAt(i)))
-				celdas[i].style.background = '#c9b458'; // Amarillo
-			else
-				celdas[i].style.background = '#787c7e'; // Gris
-		input.value = '';
-		filaActual++;
+			celdas[i].innerHTML = palabraFormada.charAt(i);
+
+		if (palabraFormada.length == 5) {
+			for (var i = 0; i < celdas.length; i++)
+				if (palabraSecreta.charAt(i) == palabraFormada.charAt(i))
+					celdas[i].style.background = '#6aaa64'; // Verde
+				else if (palabraSecreta.includes(palabraFormada.charAt(i)))
+					celdas[i].style.background = '#c9b458'; // Amarillo
+				else
+					celdas[i].style.background = '#787c7e'; // Gris
+
+			if (palabraSecreta == palabraFormada)
+				continuar = false;
+			else {
+				palabraFormada = '';
+				filaActual++;
+			}
+		}
 	}
 });
 
@@ -38,7 +47,8 @@ document.getElementById('reiniciar').addEventListener('click', function() {
 		celdasTotales[i].innerHTML = '';
 		celdasTotales[i].style.backgroundColor = 'lightgrey';
 	}
-	input.value = '';
+	palabraFormada = '';
 	filaActual = 0;
-	palabraSecreta = nuevaPalabra();
+	nuevaPalabra();
+	continuar = true;
 });

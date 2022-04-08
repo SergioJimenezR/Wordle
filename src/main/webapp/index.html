@@ -10,22 +10,19 @@
 <body>
 	<table id="tabla"></table>
 	<script>
-		var table = document.getElementById('tabla');
+		var tabla = document.getElementById('tabla');
 		for (var f = 0; f < 6; f++) {
-			var row = document.createElement('tr');
+			var fila = document.createElement('tr');
 			for (var c = 0; c < 5; c++) {
-				var cell = document.createElement('td');
-				cell.className = 'celda';
-				row.appendChild(cell);
+				var celda = document.createElement('td');
+				celda.className = 'celda';
+				fila.appendChild(celda);
 			}
-			table.appendChild(row);
+			tabla.appendChild(fila);
 		}
-		document.body.appendChild(table);
 	</script>
 
-	<input id="input" type="text" placeholder="Escribe algo" maxlength="5" />
-	<button id="validar">✓</button>
-	<button id="reiniciar">✗</button>
+	<button id="reiniciar">Reiniciar</button>
 
 	<script type="text/javascript" src="js/main.js"></script>
 </body>
