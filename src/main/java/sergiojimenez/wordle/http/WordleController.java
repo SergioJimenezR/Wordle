@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import sergiojimenez.wordle.dao.PalabraDAO;
@@ -29,6 +30,11 @@ public class WordleController {
 	@GetMapping("/getNuevaPalabra")
 	public String getNuevaPalabra() {
 		return palabraDAO.findRandom().getPalabra();
+	}
+
+	@GetMapping("/existePalabra")
+	public boolean existePalabra(@RequestParam String palabra) {
+		return palabraDAO.existsById(palabra);
 	}
 
 	@PostMapping("/rehacerDiccionario")
